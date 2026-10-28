@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[SERHII_LAB] | DevLog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --text-main: #ededed;
+            --text-muted: #a1a1aa;
+            --border: #27272a;
+            --border-hover: #3f3f46;
+            --green: #10b981;
+            --green-bg: rgba(16, 185, 129, 0.1);
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            padding: 0 20px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0 40px 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Nav */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+            font-family: var(--font-mono);
+        }
+
+        .logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; }
+
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            background-color: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--green);
+        }
+
+        .status-text { color: var(--text-muted); }
+        .status-text span { color: var(--green); }
+
+        .icon-link {
+            color: var(--text-muted);
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+        .icon-link:hover { color: var(--text-main); }
+
+        /* Hero */
+        .hero { margin-bottom: 40px; }
+        .hero h1 { font-size: 2.5rem; font-weight: 600; margin-bottom: 16px; letter-spacing: -1px; }
+        .hero p { color: var(--text-muted); font-size: 1.05rem; max-width: 650px; }
+
+        /* Filters & Search */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+            font-family: var(--font-mono);
+            align-items: center;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .filter-btn:hover { border-color: var(--border-hover); color: var(--text-main); }
+        .filter-btn.active {
+            border-color: rgba(16, 185, 129, 0.4);
+            color: var(--green);
+            background: var(--green-bg);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            min-width: 200px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0 12px;
+            background: rgba(255, 255, 255, 0.01);
+            transition: border-color 0.2s;
+        }
+        .search-box:focus-within { border-color: var(--border-hover); }
+
+        .search-box span { color: var(--text-muted); font-size: 0.8rem; margin-right: 8px; }
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            width: 100%;
+            padding: 7px 0;
+            outline: none;
+        }
+        .search-box input::placeholder { color: var(--border-hover); }
+
+        .divider {
+            border-top: 1px solid var(--border);
+            position: relative;
+            margin: 20px 0 40px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .scroll-down {
+            position: absolute;
+            top: -14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Projects List */
+        .projects-list { display: flex; flex-direction: column; gap: 20px; flex-grow: 1; }
+
+        .project-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            background: rgba(255,255,255, 0.01);
+            transition: border-color 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .project-card:hover { border-color: var(--border-hover); }
+
+        .project-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+        }
+        .project-title { font-weight: 600; font-size: 1.1rem; }
+        
+        .project-category {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .project-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px; }
+
+        .project-footer { display: flex; justify-content: space-between; align-items: center; }
+        .tech-list { display: flex; gap: 10px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); }
+        
+        .project-link { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+        .project-card:hover .project-link { color: var(--text-main); }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            padding-top: 25px;
+            border-top: 1px dashed var(--border);
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .footer a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer a:hover {
+            color: var(--green);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Top Nav -->
+        <nav class="top-nav">
+            <div class="logo">[SERHII_LAB]</div>
+            <div class="nav-actions">
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    <div class="status-text" id="status-text">STATUS: <span>BUILDING NEW STUFF</span></div>
+                </div>
+                <button id="langToggle" class="icon-link">UK</button>
+                <a href="https://github.com/serhii-labs" target="_blank" class="icon-link">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"></path></svg>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <header class="hero">
+            <h1 id="hero-title">Digital Workspace & Log</h1>
+            <p id="hero-desc">Welcome to my lab. This is where I build, break, and scale digital products. Below is a live log of my current experiments, web apps, and bots. Built in public.</p>
+        </header>
+
+        <!-- Toolbar -->
+        <div class="toolbar" id="filters-container">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="web">Web Apps</button>
+            <button class="filter-btn" data-filter="bot">Telegram Bots</button>
+            <button class="filter-btn" data-filter="dash">Dashboards</button>
+            <div class="search-box">
+                <span>&gt;_</span>
+                <input type="text" id="searchInput" placeholder="grep projects...">
+            </div>
+        </div>
+
+        <div class="divider">
+            <div class="scroll-down">↓</div>
+        </div>
+
+        <!-- Projects -->
+        <main class="projects-list" id="projects-container"></main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div id="footer-text">Built by <a href="https://github.com/serhii-labs" target="_blank">serhii-labs</a>. All systems nominal.</div>
+        </footer>
+    </div>
+
+    <script>
+        const i18n = {
+            en: {
+                statusText: 'STATUS: <span>BUILDING NEW STUFF</span>',
+                heroTitle: 'Digital Workspace & Log',
+                heroDesc: 'Welcome to my lab. This is where I build, break, and scale digital products. Below is a live log of my current experiments, web apps, and bots. Built in public.',
+                filters: { all: 'All', web: 'Web Apps', bot: 'Telegram Bots', dash: 'Dashboards' },
+                searchPlaceholder: 'grep projects...',
+                btnLang: 'UK',
+                viewProject: 'view ->',
+                footerText: 'Built by <a href="https://github.com/serhii-labs" target="_blank">serhii-labs</a>. All systems nominal.',
+                projects: [
+                    {
+                        id: 'fop', cat: 'web', catName: 'Web App',
+                        title: 'FOP.Finance',
+                        desc: 'Financial accounting platform for sole proprietors. Automates routines using Google Sheets templates and DB.',
+                        tech: ['Next.js', 'PostgreSQL', 'Vercel'],
+                        link: '#'
+                    },
+                    {
+                        id: 'ecalc', cat: 'web', catName: 'Web App',
+                        title: 'eCalc — US Shipping',
+                        desc: 'Calculator for US shipping costs and customs clearance. Fast UI for instant estimates.',
+                        tech: ['Next.js', 'React Native', 'Vercel'],
+                        link: 'https://uacalc.vercel.app'
+                    },
+                    {
+                        id: 'fuckup', cat: 'bot', catName: 'Telegram Bot',
+                        title: 'Fuckup Tracker Bot',
+                        desc: 'A bot for tracking personal failures and technical mistakes to analyze and document experience.',
+                        tech: ['Python', 'aiogram'],
+                        link: '#'
+                    },
+                    {
+                        id: 'resell', cat: 'dash', catName: 'Dashboard',
+                        title: 'Resell Dashboard',
+                        desc: 'Analytics dashboard to track sales, profit margins, and inventory metrics for reselling.',
+                        tech: ['Node.js', 'Tailwind', 'MySQL'],
+                        link: '#'
+                    }
+                ]
+            },
+            uk: {
+                statusText: 'СТАТУС: <span>БУДУЮ НОВЕ</span>',
+                heroTitle: 'Цифрова Лабораторія & Журнал',
+                heroDesc: 'Ласкаво просимо до моєї лабораторії. Тут я створюю, ламаю та масштабую цифрові продукти. Нижче — відкритий журнал моїх поточних веб-додатків, ботів та експериментів.',
+                filters: { all: 'Усі', web: 'Веб-додатки', bot: 'Telegram Боти', dash: 'Дашборди' },
+                searchPlaceholder: 'пошук проєктів...',
+                btnLang: 'EN',
+                viewProject: 'відкрити ->',
+                footerText: 'Розроблено <a href="https://github.com/serhii-labs" target="_blank">serhii-labs</a>. Системи працюють у штатному режимі.',
+                projects: [
+                    {
+                        id: 'fop', cat: 'web', catName: 'Веб-додаток',
+                        title: 'ФОП.Фінанси',
+                        desc: 'Платформа для фінансового обліку ФОП. Автоматизує рутину за допомогою бази даних та шаблонів Google Sheets.',
+                        tech: ['Next.js', 'PostgreSQL', 'Vercel'],
+                        link: '#'
+                    },
+                    {
+                        id: 'ecalc', cat: 'web', catName: 'Веб-додаток',
+                        title: 'eCalc — Доставка з США',
+                        desc: 'Калькулятор вартості доставки та розмитнення товарів зі США. Зручний інтерфейс для швидких розрахунків.',
+                        tech: ['Next.js', 'React Native', 'Vercel'],
+                        link: 'https://uacalc.vercel.app'
+                    },
+                    {
+                        id: 'fuckup', cat: 'bot', catName: 'Telegram Бот',
+                        title: 'Бот Факапів',
+                        desc: 'Бот для фіксації та аналізу власних помилок. Допомагає робити висновки та зберігати отриманий досвід.',
+                        tech: ['Python', 'aiogram'],
+                        link: '#'
+                    },
+                    {
+                        id: 'resell', cat: 'dash', catName: 'Дашборд',
+                        title: 'Resell Dashboard',
+                        desc: 'Аналітичний дашборд для контролю продажів, маржі та складських залишків у сфері перепродажу.',
+                        tech: ['Node.js', 'Tailwind', 'MySQL'],
+                        link: '#'
+                    }
+                ]
+            }
+        };
+
+        let currentLang = localStorage.getItem('serhiilab_lang') || 'uk';
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        function renderInterface() {
+            const t = i18n[currentLang];
+            document.getElementById('status-text').innerHTML = t.statusText;
+            document.getElementById('hero-title').innerText = t.heroTitle;
+            document.getElementById('hero-desc').innerText = t.heroDesc;
+            document.getElementById('langToggle').innerText = t.btnLang;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            document.getElementById('footer-text').innerHTML = t.footerText;
+
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns[0].innerText = t.filters.all;
+            filterBtns[1].innerText = t.filters.web;
+            filterBtns[2].innerText = t.filters.bot;
+            filterBtns[3].innerText = t.filters.dash;
+
+            renderProjects();
+        }
+
+        function renderProjects() {
+            const t = i18n[currentLang];
+            const container = document.getElementById('projects-container');
+            container.innerHTML = '';
+
+            const filtered = t.projects.filter(p => {
+                const matchesFilter = currentFilter === 'all' || p.cat === currentFilter;
+                const matchesSearch = p.title.toLowerCase().includes(searchQuery) || 
+                                      p.tech.join(' ').toLowerCase().includes(searchQuery) ||
+                                      p.desc.toLowerCase().includes(searchQuery);
+                return matchesFilter && matchesSearch;
+            });
+
+            filtered.forEach(p => {
+                const techHtml = p.tech.map(tech => `<span>${tech}</span>`).join('');
+                const card = `
+                    <a href="${p.link}" target="${p.link !== '#' ? '_blank' : '_self'}" class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">${p.title}</div>
+                            <div class="project-category">${p.catName}</div>
+                        </div>
+                        <div class="project-desc">${p.desc}</div>
+                        <div class="project-footer">
+                            <div class="tech-list">${techHtml}</div>
+                            <div class="project-link">${t.viewProject}</div>
+                        </div>
+                    </a>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // Setup Events
+        document.getElementById('langToggle').addEventListener('click', () => {
+            currentLang = currentLang === 'uk' ? 'en' : 'uk';
+            localStorage.setItem('serhiilab_lang', currentLang);
+            renderInterface();
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.getAttribute('data-filter');
+                renderProjects();
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            renderProjects();
+        });
+
+        // Init
+        renderInterface();
+    </script>
+</body>
+</html>
