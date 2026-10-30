@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[SERHII_LAB] | DevLog</title>
-    <link rel="icon" type="image/svg+xml" href="serhii-labs-favikon.svg">
+    
+    <!-- Підключення фавікона з параметром проти кешу -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -196,7 +199,25 @@
             font-size: 0.7rem;
             color: var(--text-muted);
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
         }
+
+        /* Статуси проєктів */
+        .project-status {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid;
+            margin-left: 8px;
+            letter-spacing: 0;
+        }
+        .status-stable { color: #10b981; border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05); }
+        .status-beta { color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.05); }
+        .status-build { color: #3b82f6; border-color: rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.05); }
+        .status-proto { color: #a855f7; border-color: rgba(168, 85, 247, 0.3); background: rgba(168, 85, 247, 0.05); }
+        .status-archived { color: #71717a; border-color: rgba(113, 113, 122, 0.3); background: rgba(113, 113, 122, 0.05); }
 
         .project-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px; }
 
@@ -290,6 +311,7 @@
                 projects: [
                     {
                         id: 'fop', cat: 'web', catName: 'Web App',
+                        statusClass: 'beta', statusName: 'BETA',
                         title: 'FOP.Finance',
                         desc: 'Financial accounting platform for sole proprietors. Automates routines using Google Sheets templates and DB.',
                         tech: ['Next.js', 'PostgreSQL', 'Vercel'],
@@ -297,6 +319,7 @@
                     },
                     {
                         id: 'ecalc', cat: 'web', catName: 'Web App',
+                        statusClass: 'stable', statusName: 'STABLE',
                         title: 'eCalc — US Shipping',
                         desc: 'Calculator for US shipping costs and customs clearance. Fast UI for instant estimates.',
                         tech: ['Next.js', 'React Native', 'Vercel'],
@@ -304,6 +327,7 @@
                     },
                     {
                         id: 'fuckup', cat: 'bot', catName: 'Telegram Bot',
+                        statusClass: 'beta', statusName: 'BETA',
                         title: 'Fuckup Tracker Bot',
                         desc: 'A bot for tracking personal failures and technical mistakes to analyze and document experience.',
                         tech: ['Python', 'aiogram'],
@@ -311,6 +335,7 @@
                     },
                     {
                         id: 'resell', cat: 'dash', catName: 'Dashboard',
+                        statusClass: 'beta', statusName: 'BETA',
                         title: 'Resell Dashboard',
                         desc: 'Analytics dashboard to track sales, profit margins, and inventory metrics for reselling.',
                         tech: ['Node.js', 'Tailwind', 'MySQL'],
@@ -321,7 +346,7 @@
             uk: {
                 statusText: 'СТАТУС: <span>БУДУЮ НОВЕ</span>',
                 heroTitle: 'Цифрова Лабораторія & Журнал',
-                heroDesc: 'Ласкаво просимо до моєї лабораторії. Я не професійний розробник, але тут я вигадую, створюю, ламаю, тестую та масштабую цифрові продукти та свої ідеї. Нижче — відкритий журнал моїх поточних веб-додатків, ботів та експериментів.',
+                heroDesc: 'Ласкаво просимо до моєї лабораторії. Тут я створюю, ламаю та масштабую цифрові продукти. Нижче — відкритий журнал моїх поточних веб-додатків, ботів та експериментів.',
                 filters: { all: 'Усі', web: 'Веб-додатки', bot: 'Telegram Боти', dash: 'Дашборди' },
                 searchPlaceholder: 'пошук проєктів...',
                 btnLang: 'EN',
@@ -330,31 +355,35 @@
                 projects: [
                     {
                         id: 'fop', cat: 'web', catName: 'Веб-додаток',
+                        statusClass: 'beta', statusName: 'БЕТА',
                         title: 'ФОП.Фінанси',
-                        desc: 'Платформа для фінансового обліку ФОП. Інструмент для тих хто виріс з Google Sheets, але для кого CRM занадто великі та непотрібні',
+                        desc: 'Платформа для фінансового обліку ФОП. Автоматизує рутину за допомогою бази даних та шаблонів Google Sheets.',
                         tech: ['Next.js', 'PostgreSQL', 'Vercel'],
-                        link: 'https://fop-finance.vercel.app'
+                        link: '#'
                     },
                     {
                         id: 'ecalc', cat: 'web', catName: 'Веб-додаток',
+                        statusClass: 'stable', statusName: 'АКТИВНО',
                         title: 'eCalc — Доставка з США',
-                        desc: 'Калькулятор вартості доставки та розмитнення товарів зі США та Європи. Автоматично розраховує розмитнення при перевищенні 150 Євро, та враховує вартість доствки. На відміну від інших інструментів, показує одразу вам собівартість товару у вас на руках.',
+                        desc: 'Калькулятор вартості доставки та розмитнення товарів зі США. Зручний інтерфейс для швидких розрахунків.',
                         tech: ['Next.js', 'React Native', 'Vercel'],
                         link: 'https://uacalc.vercel.app'
                     },
                     {
                         id: 'fuckup', cat: 'bot', catName: 'Telegram Бот',
+                        statusClass: 'beta', statusName: 'БЕТА',
                         title: 'Бот Факапів',
-                        desc: 'Бот-жартівник для фіксації та прогнозу власних помилок. Допомагає робити висновки та зберігати отриманий досвід. Персональний  трекер невдач, за допомогою математики (розподіл Пуассона) вирахує, коли тебе накриє наступного разу. ',
+                        desc: 'Бот для фіксації та аналізу власних помилок. Допомагає робити висновки та зберігати отриманий досвід.',
                         tech: ['Python', 'aiogram'],
-                        link: '@fail_radar_bot'
+                        link: '#'
                     },
                     {
                         id: 'resell', cat: 'dash', catName: 'Дашборд',
+                        statusClass: 'beta', statusName: 'БЕТА',
                         title: 'Resell Dashboard',
-                        desc: 'Аналітичний дашборд для розрахунку маржинальності перепродажу товарів із за кордому. Одразу розраховує мито (якщо воно буде), вартість доставки, та дає можливість вносити ціни за кордоном та в країні, і отримувати маржу, прибуток а гон та найркщу ціну',
+                        desc: 'Аналітичний дашборд для контролю продажів, маржі та складських залишків у сфері перепродажу.',
                         tech: ['Node.js', 'Tailwind', 'MySQL'],
-                        link: 'https://uaflipdesk.vercel.app'
+                        link: '#'
                     }
                 ]
             }
@@ -401,7 +430,7 @@
                     <a href="${p.link}" target="${p.link !== '#' ? '_blank' : '_self'}" class="project-card">
                         <div class="project-header">
                             <div class="project-title">${p.title}</div>
-                            <div class="project-category">${p.catName}</div>
+                            <div class="project-category">${p.catName} <span class="project-status status-${p.statusClass}">${p.statusName}</span></div>
                         </div>
                         <div class="project-desc">${p.desc}</div>
                         <div class="project-footer">
